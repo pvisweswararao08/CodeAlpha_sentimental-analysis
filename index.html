@@ -1,0 +1,426 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>SentimentIQ — AI-Powered Sentiment Analysis Platform</title>
+  <meta name="description" content="Advanced sentiment analysis platform using NLP techniques to detect emotions, analyze public opinion from Amazon reviews, social media, and news sources." />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+
+<!-- ===== HEADER ===== -->
+<header class="header">
+  <div class="header-inner">
+    <div class="logo">
+      <div class="logo-icon">
+        <svg width="28" height="28" viewBox="0 0 28 28" fill="none">
+          <circle cx="14" cy="14" r="13" stroke="url(#lg1)" stroke-width="2"/>
+          <path d="M8 14c0-3.3 2.7-6 6-6s6 2.7 6 6-2.7 6-6 6" stroke="url(#lg1)" stroke-width="2" stroke-linecap="round"/>
+          <circle cx="10" cy="12" r="1.5" fill="#a78bfa"/>
+          <circle cx="18" cy="12" r="1.5" fill="#a78bfa"/>
+          <path d="M10.5 17.5c1 1.5 6 1.5 7 0" stroke="#7c3aed" stroke-width="1.5" stroke-linecap="round"/>
+          <defs>
+            <linearGradient id="lg1" x1="0" y1="0" x2="28" y2="28" gradientUnits="userSpaceOnUse">
+              <stop stop-color="#818cf8"/><stop offset="1" stop-color="#7c3aed"/>
+            </linearGradient>
+          </defs>
+        </svg>
+      </div>
+      <span class="logo-text">SentimentIQ</span>
+      <span class="logo-badge">AI</span>
+    </div>
+    <nav class="nav">
+      <button class="nav-btn active" data-section="analyze" id="nav-analyze">Analyze</button>
+      <button class="nav-btn" data-section="explore" id="nav-explore">Datasets</button>
+      <button class="nav-btn" data-section="trends" id="nav-trends">Trends</button>
+      <button class="nav-btn" data-section="insights" id="nav-insights">Insights</button>
+    </nav>
+    <div class="header-actions">
+      <div class="live-badge">
+        <span class="live-dot"></span>
+        <span>Live NLP Engine</span>
+      </div>
+    </div>
+  </div>
+</header>
+
+<!-- ===== HERO ===== -->
+<div class="hero" id="hero-section">
+  <div class="hero-bg">
+    <div class="hero-orb orb1"></div>
+    <div class="hero-orb orb2"></div>
+    <div class="hero-orb orb3"></div>
+  </div>
+  <div class="hero-content">
+    <div class="hero-chip">
+      <span class="chip-dot"></span>
+      Powered by Lexicon-based NLP &amp; Emotion AI
+    </div>
+    <h1 class="hero-title">
+      Decode the <span class="gradient-text">Emotions</span><br/>
+      Behind Every Word
+    </h1>
+    <p class="hero-subtitle">
+      Analyze sentiment from Amazon reviews, social media &amp; news.<br/>
+      Classify opinions, detect emotions, and surface actionable insights.
+    </p>
+    <div class="hero-stats">
+      <div class="hero-stat">
+        <span class="stat-num" id="stat-analyzed">0</span>
+        <span class="stat-lbl">Texts Analyzed</span>
+      </div>
+      <div class="stat-divider"></div>
+      <div class="hero-stat">
+        <span class="stat-num">8</span>
+        <span class="stat-lbl">Emotions Detected</span>
+      </div>
+      <div class="stat-divider"></div>
+      <div class="hero-stat">
+        <span class="stat-num">3</span>
+        <span class="stat-lbl">Data Sources</span>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ===== MAIN APP ===== -->
+<main class="main">
+
+  <!-- ===== SECTION: ANALYZE ===== -->
+  <section class="section active" id="section-analyze">
+
+    <!-- Input Panel -->
+    <div class="panel-grid">
+      <div class="panel input-panel">
+        <div class="panel-header">
+          <h2 class="panel-title">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 20h9"/><path d="M16.5 3.5a2.121 2.121 0 013 3L7 19l-4 1 1-4L16.5 3.5z"/></svg>
+            Analyze Text
+          </h2>
+          <div class="source-selector">
+            <button class="src-btn active" data-source="custom" id="src-custom">Custom</button>
+            <button class="src-btn" data-source="amazon" id="src-amazon">Amazon</button>
+            <button class="src-btn" data-source="social" id="src-social">Social</button>
+            <button class="src-btn" data-source="news" id="src-news">News</button>
+          </div>
+        </div>
+
+        <textarea
+          id="text-input"
+          class="text-input"
+          placeholder="Paste your text here — Amazon review, tweet, news headline, or any text you want to analyze for sentiment and emotion..."
+          rows="7"
+          spellcheck="false"
+        ></textarea>
+
+        <div class="input-footer">
+          <div class="char-count"><span id="char-count">0</span> characters</div>
+          <div class="input-actions">
+            <button class="btn-ghost" id="btn-clear">Clear</button>
+            <button class="btn-ghost" id="btn-sample">Load Sample</button>
+            <button class="btn-primary" id="btn-analyze">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg>
+              Analyze Sentiment
+            </button>
+          </div>
+        </div>
+
+        <!-- Batch Input -->
+        <div class="batch-section">
+          <div class="batch-header">
+            <span class="batch-title">Batch Analysis</span>
+            <span class="batch-hint">One text per line</span>
+          </div>
+          <textarea id="batch-input" class="batch-input" placeholder="Enter multiple texts, one per line..." rows="4"></textarea>
+          <button class="btn-secondary" id="btn-batch">Run Batch Analysis</button>
+        </div>
+      </div>
+
+      <!-- Results Panel -->
+      <div class="panel result-panel" id="result-panel">
+        <div class="panel-header">
+          <h2 class="panel-title">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 12h-4l-3 9L9 3l-3 9H2"/></svg>
+            Analysis Results
+          </h2>
+          <div id="processing-badge" class="processing-badge hidden">
+            <span class="processing-dot"></span> Processing...
+          </div>
+        </div>
+
+        <div class="result-empty" id="result-empty">
+          <div class="empty-icon">
+            <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="12" cy="12" r="10"/><path d="M8 15s1.5 2 4 2 4-2 4-2"/><line x1="9" y1="9" x2="9.01" y2="9"/><line x1="15" y1="9" x2="15.01" y2="9"/></svg>
+          </div>
+          <p>Enter text and click <strong>Analyze Sentiment</strong></p>
+          <p class="empty-sub">Results will appear here with emotion scores, confidence, and insights</p>
+        </div>
+
+        <div class="result-content hidden" id="result-content">
+          <!-- Sentiment Badge -->
+          <div class="sentiment-hero">
+            <div class="sentiment-badge-wrap">
+              <div class="sentiment-badge" id="sentiment-badge">
+                <span class="sentiment-emoji" id="sentiment-emoji">😊</span>
+                <span class="sentiment-label" id="sentiment-label">Positive</span>
+              </div>
+              <div class="confidence-ring-wrap">
+                <canvas id="conf-chart" width="100" height="100"></canvas>
+                <div class="confidence-center">
+                  <span id="confidence-pct">87%</span>
+                  <span>confidence</span>
+                </div>
+              </div>
+            </div>
+
+            <!-- Polarity Scores -->
+            <div class="polarity-bars">
+              <div class="polarity-row">
+                <span class="pol-label pos">Positive</span>
+                <div class="pol-bar-wrap"><div class="pol-bar pos-bar" id="bar-pos"></div></div>
+                <span class="pol-score" id="score-pos">0.00</span>
+              </div>
+              <div class="polarity-row">
+                <span class="pol-label neu">Neutral</span>
+                <div class="pol-bar-wrap"><div class="pol-bar neu-bar" id="bar-neu"></div></div>
+                <span class="pol-score" id="score-neu">0.00</span>
+              </div>
+              <div class="polarity-row">
+                <span class="pol-label neg">Negative</span>
+                <div class="pol-bar-wrap"><div class="pol-bar neg-bar" id="bar-neg"></div></div>
+                <span class="pol-score" id="score-neg">0.00</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- Compound Score -->
+          <div class="compound-section">
+            <div class="compound-label">Compound Score</div>
+            <div class="compound-slider-wrap">
+              <div class="compound-track">
+                <div class="compound-needle" id="compound-needle"></div>
+              </div>
+              <div class="compound-labels">
+                <span>Very Negative</span>
+                <span>Neutral</span>
+                <span>Very Positive</span>
+              </div>
+            </div>
+            <div class="compound-value" id="compound-value">0.00</div>
+          </div>
+
+          <!-- Emotions -->
+          <div class="emotions-section">
+            <div class="emotions-title">Emotion Breakdown</div>
+            <div class="emotions-grid" id="emotions-grid"></div>
+          </div>
+
+          <!-- Key Phrases -->
+          <div class="phrases-section">
+            <div class="phrases-title">Sentiment Keywords</div>
+            <div class="phrases-wrap" id="phrases-wrap"></div>
+          </div>
+
+          <!-- Highlighted Text -->
+          <div class="highlight-section">
+            <div class="highlight-title">Annotated Text</div>
+            <div class="highlight-text" id="highlight-text"></div>
+            <div class="legend">
+              <span class="legend-item pos-bg">Positive</span>
+              <span class="legend-item neg-bg">Negative</span>
+              <span class="legend-item neu-bg">Neutral</span>
+            </div>
+          </div>
+
+          <!-- Insights -->
+          <div class="insights-section" id="insights-box">
+            <div class="insights-title">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
+              Actionable Insights
+            </div>
+            <ul class="insights-list" id="insights-list"></ul>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Batch Results -->
+    <div class="panel batch-results hidden" id="batch-results-panel">
+      <div class="panel-header">
+        <h2 class="panel-title">Batch Analysis Results</h2>
+        <div class="batch-summary" id="batch-summary"></div>
+      </div>
+      <div class="batch-table-wrap">
+        <table class="batch-table" id="batch-table">
+          <thead>
+            <tr>
+              <th>#</th>
+              <th>Text Preview</th>
+              <th>Sentiment</th>
+              <th>Score</th>
+              <th>Top Emotion</th>
+              <th>Confidence</th>
+            </tr>
+          </thead>
+          <tbody id="batch-tbody"></tbody>
+        </table>
+      </div>
+      <div class="batch-charts-row">
+        <div class="mini-chart-wrap">
+          <canvas id="batch-pie-chart" width="220" height="220"></canvas>
+          <p class="mini-chart-label">Sentiment Distribution</p>
+        </div>
+        <div class="mini-chart-wrap wide">
+          <canvas id="batch-bar-chart" width="500" height="220"></canvas>
+          <p class="mini-chart-label">Score Distribution</p>
+        </div>
+      </div>
+    </div>
+
+  </section>
+
+  <!-- ===== SECTION: DATASETS ===== -->
+  <section class="section hidden" id="section-explore">
+    <div class="section-intro">
+      <h2>Explore Sample Datasets</h2>
+      <p>Pre-loaded datasets from Amazon, Social Media, and News sources. Click any entry to analyze it.</p>
+    </div>
+
+    <div class="dataset-tabs">
+      <button class="ds-tab active" data-ds="amazon" id="ds-amazon">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 2 3 6v14a2 2 0 002 2h14a2 2 0 002-2V6l-3-4z"/><line x1="3" y1="6" x2="21" y2="6"/><path d="M16 10a4 4 0 01-8 0"/></svg>
+        Amazon Reviews
+        <span class="ds-count">20</span>
+      </button>
+      <button class="ds-tab" data-ds="social" id="ds-social">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M23 3a10.9 10.9 0 01-3.14 1.53 4.48 4.48 0 00-7.86 3v1A10.66 10.66 0 013 4s-4 9 5 13a11.64 11.64 0 01-7 2c9 5 20 0 20-11.5a4.5 4.5 0 00-.08-.83A7.72 7.72 0 0023 3z"/></svg>
+        Social Media
+        <span class="ds-count">20</span>
+      </button>
+      <button class="ds-tab" data-ds="news" id="ds-news">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 22h16a2 2 0 002-2V4a2 2 0 00-2-2H8a2 2 0 00-2 2v16a2 2 0 01-2 2zm0 0a2 2 0 01-2-2v-9c0-1.1.9-2 2-2h2"/><path d="M18 14h-8"/><path d="M15 18h-5"/><path d="M10 6h8v4h-8V6z"/></svg>
+        News Articles
+        <span class="ds-count">20</span>
+      </button>
+    </div>
+
+    <div class="dataset-grid" id="dataset-grid"></div>
+
+    <div class="analyze-all-bar">
+      <button class="btn-primary big" id="btn-analyze-all">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M22 12h-4l-3 9L9 3l-3 9H2"/></svg>
+        Analyze Entire Dataset
+      </button>
+      <span class="analyze-all-hint" id="ds-source-label">Analyzing: Amazon Reviews (20 items)</span>
+    </div>
+
+    <div class="ds-results hidden" id="ds-results">
+      <div class="ds-results-header">
+        <h3>Dataset Analysis Complete</h3>
+        <div class="ds-legend">
+          <span class="ds-leg pos">■ Positive</span>
+          <span class="ds-leg neu">■ Neutral</span>
+          <span class="ds-leg neg">■ Negative</span>
+        </div>
+      </div>
+      <div class="ds-chart-row">
+        <div class="ds-chart-box">
+          <canvas id="ds-donut" width="260" height="260"></canvas>
+        </div>
+        <div class="ds-stats-col" id="ds-stats-col"></div>
+        <div class="ds-chart-box wide">
+          <canvas id="ds-timeline" width="500" height="260"></canvas>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== SECTION: TRENDS ===== -->
+  <section class="section hidden" id="section-trends">
+    <div class="section-intro">
+      <h2>Sentiment Trends &amp; Patterns</h2>
+      <p>Understand how public opinion evolves over time across different topics and sources.</p>
+    </div>
+
+    <div class="trends-grid">
+      <div class="panel trend-panel full-width">
+        <div class="panel-header">
+          <h3 class="panel-title">Overall Sentiment Timeline</h3>
+          <div class="trend-controls">
+            <button class="trend-ctrl active" data-period="7d">7 Days</button>
+            <button class="trend-ctrl" data-period="30d">30 Days</button>
+            <button class="trend-ctrl" data-period="90d">90 Days</button>
+          </div>
+        </div>
+        <canvas id="trend-line-chart" height="300"></canvas>
+      </div>
+
+      <div class="panel trend-panel">
+        <div class="panel-header">
+          <h3 class="panel-title">Emotion Radar</h3>
+        </div>
+        <div class="radar-wrap">
+          <canvas id="emotion-radar" width="340" height="340"></canvas>
+        </div>
+      </div>
+
+      <div class="panel trend-panel">
+        <div class="panel-header">
+          <h3 class="panel-title">Source Comparison</h3>
+        </div>
+        <canvas id="source-bar" height="280"></canvas>
+      </div>
+
+      <div class="panel trend-panel full-width">
+        <div class="panel-header">
+          <h3 class="panel-title">Topic Sentiment Heatmap</h3>
+        </div>
+        <div class="heatmap-wrap" id="heatmap-wrap"></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== SECTION: INSIGHTS ===== -->
+  <section class="section hidden" id="section-insights">
+    <div class="section-intro">
+      <h2>Business &amp; Social Insights</h2>
+      <p>Transform sentiment data into strategic decisions for marketing, product development, and social understanding.</p>
+    </div>
+
+    <div class="insights-cards-grid" id="insights-cards-grid"></div>
+
+    <div class="trends-grid" style="margin-top:2rem;">
+      <div class="panel trend-panel full-width">
+        <div class="panel-header">
+          <h3 class="panel-title">Marketing Opportunity Index</h3>
+        </div>
+        <canvas id="marketing-chart" height="280"></canvas>
+      </div>
+
+      <div class="panel trend-panel">
+        <div class="panel-header"><h3 class="panel-title">Pain Points Detected</h3></div>
+        <div id="pain-points-list" class="pain-list"></div>
+      </div>
+
+      <div class="panel trend-panel">
+        <div class="panel-header"><h3 class="panel-title">Positive Drivers</h3></div>
+        <div id="positive-drivers-list" class="pain-list"></div>
+      </div>
+    </div>
+  </section>
+
+</main>
+
+<!-- ===== TOAST ===== -->
+<div class="toast" id="toast"></div>
+
+<script src="nlp.js"></script>
+<script src="data.js"></script>
+<script src="charts.js"></script>
+<script src="app.js"></script>
+</body>
+</html>
